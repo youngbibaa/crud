@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список пользователей</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'app/css/styles.css' %}">
+</head>
+<body>
+   <div class="container">
+        <h1>Список пользователей</h1>
+        <ul>
+            {% for customer in customers %}
+                <li>
+                    <p>{{ customer.first_name }}</p> <p>{{ customer.last_name }}</p>
+                    <form method="post" action="{% url 'toggle_customer_status' pk=customer.id %}">
+                        {% csrf_token %}
+                        {% if customer.is_active %}
+                            <button type="submit">Деактивировать</button>
+                        {% else %}
+                            <button type="submit">Активировать</button>
+                        {% endif %}
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'home' %}">Вернуться назад</a>
+   </div>
+</body>
+</html>
